@@ -42,7 +42,15 @@ export async function updateObject(id,patch){
   const {data,error}=await db.from('objects').update(upd).eq('id',id).select('*').single();
   if(error) throw new Error(error.message); const obj=mapRow(data); await writeJson(obj,'00_Objektakte/objekt.json',obj); return obj;
 }
-export async function getObject(id){const {data,error}=await supabaseAdmin().from('objects').select('*').eq('id',id).maybeSingle(); if(error) throw new Error(error.message); return mapRow(data);}
+export async function getObject(id){
+  const db=supabaseAdmin();
+  const {data,error}=await db.from('objects').select('*').eq('id',id).maybeSingle(); if(error) throw new Error(error.message);
+  const obj=mapRow(data); if(!obj) return null;
+  const {data:docs,error:de}=await db.from('documents').select('*').eq('object_id',id).order('created_at',{ascending:false}); if(de) throw new Error(de.message);
+  obj.documents=(docs||[]).map(d=>({id:d.id,kind:d.document_type,filename:d.original_filename||d.title,path:d.dropbox_path,status:d.status,versionDate:d.version_date,createdAt:d.created_at}));
+  obj.automation=obj.metadata?.automation||{}; obj.intake=obj.metadata?.intake||{};
+  return obj;
+}
 export async function findObjectByAddress(address){const {data,error}=await supabaseAdmin().from('objects').select('*'); if(error) throw new Error(error.message); const hit=(data||[]).find(r=>norm(r.canonical_address)===norm(address)); return mapRow(hit||null);}
 export async function allObjects(){const {data,error}=await supabaseAdmin().from('objects').select('*').order('created_at',{ascending:false}); if(error) throw new Error(error.message); return (data||[]).map(mapRow);}
 
