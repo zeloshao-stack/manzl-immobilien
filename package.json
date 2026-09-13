@@ -1,0 +1,25 @@
+{
+  "name": "manzl-objekt-os-chatgpt-app",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "zod": "^3.25.76",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.8.0",
+    "xlsx": "^0.18.5",
+    "@supabase/supabase-js": "^2.57.4",
+    "playwright-core": "^1.55.0",
+    "@sparticuz/chromium": "^138.0.2"
+  }
+}
