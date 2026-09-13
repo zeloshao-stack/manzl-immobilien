@@ -47,7 +47,7 @@ async function detectAddress(files,hint=''){
 export function classifyFile(filename=''){
   const n=filename.toLowerCase();
   if(/grundbuch|gb[_ -]?auszug|auszug.*grundbuch/.test(n)) return {subfolder:'02_Grundbuch/aktuell',kind:'grundbuch'};
-  if(/topo|topografie/.test(n)) return {subfolder:'06_Topografie/aktuell',kind:'topografie'};
+  if(/topo|topografie/.test(n)) return {subfolder:'06_Topografie/aktuell',kind:/\.xlsm?$/.test(n)?'topografie_excel':'topografie_pdf'};
   if(/plan|grundriss|schnitt|ansicht|einreich|bestandsplan/.test(n)) return {subfolder:'03_Plaene/aktuell',kind:'plan'};
   if(/zins|mieterliste|mieten|rent.?roll/.test(n)) return {subfolder:'04_Zinsliste/aktuell',kind:'zinsliste'};
   if(/\.(jpe?g|png|heic|webp|tiff?)$/i.test(n)) return {subfolder:'05_Fotos/original',kind:'foto'};
